@@ -2,7 +2,7 @@ import html
 import os
 from io import BytesIO, StringIO
 
-import pythoncom
+
 import streamlit as st
 import win32com.client.dynamic as win32
 from streamlit_option_menu import option_menu
@@ -418,7 +418,7 @@ def home_page() :
                             # todo-fixme done
 
 
-    
+
 
     import docx2txt
 
