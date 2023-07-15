@@ -7,7 +7,6 @@ import pdfcrowd
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table
 import docx
-import pywin
 import comtypes
 import win32com.client.dynamic as win32
 import streamlit as st
@@ -755,6 +754,32 @@ def home_page():
     from bs4 import BeautifulSoup
     import streamlit as st
 
+<<<<<<< HEAD
+=======
+    # def html_to_pdf(uploaded_file):
+    #     # Read the HTML content
+    #     html_content = uploaded_file.read().decode("utf-8")
+    #
+    #     # Generate a temporary PDF file path
+    #     temp_pdf_path = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf').name
+    #
+    #     # Create a PDFCrowd client
+    #     client = pdfcrowd.HtmlToPdfClient("sat223", "8f56d67515b0c9463b56ea339626e358")  # Replace with your PDFCrowd credentials
+    #
+    #     # Convert HTML to PDF using PDFCrowd API
+    #     client.convertStringToFile(html_content, temp_pdf_path)
+    #
+    #     # Read the PDF file as bytes
+    #     with open(temp_pdf_path, 'rb') as temp_pdf_file:
+    #         pdf_bytes = temp_pdf_file.read()
+    #
+    #     # Display success message
+    #     st.success("File converted to PDF successfully.")
+    #
+    #     # Download button
+    #     st.download_button("Download Converted File", data=pdf_bytes, file_name='converted.pdf')
+
+>>>>>>> master
 
 
 
