@@ -1,46 +1,27 @@
 import html
-import shutil
-import tempfile
-import csv
-
-import pdfcrowd
-from bs4 import BeautifulSoup
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table
-import docx
-import comtypes
-import win32com.client.dynamic as win32
-import streamlit as st
-from streamlit_option_menu import option_menu
 import os
-import docx2txt
-import pypandoc
-from docx import Document
 from io import BytesIO, StringIO
-from reportlab.pdfgen import canvas
-from fpdf import FPDF
-
-from docx2pdf import convert
 
 import pythoncom
-import time
-
-
-
+import streamlit as st
+import win32com.client.dynamic as win32
+from streamlit_option_menu import option_menu
 
 # -------------------------------------------------------
 st.set_page_config(
     page_title="File Converter",
     page_icon=":file_folder:"
 )
-#About page starts---------------------------------------
+
+
+# About page starts---------------------------------------
 def about_page() :
     st.title("About File Converter")
     st.markdown("---")
 
     st.header("Introduction")
-    st.write(
-        "Welcome to File Converter, a powerful and user-friendly application developed by a single developer that allows you to convert files from one format to another.")
+    st.write("Welcome to File Converter, a powerful and user-friendly application developed by a single developer "
+             "that allows you to convert files from one format to another.")
 
     st.header("Key Features")
     st.markdown("- Supports various file formats, including Word, CSV, PDF, TXT, and HTML.")
@@ -86,10 +67,10 @@ def about_page() :
     st.markdown("- We appreciate your feedback and suggestions for improving our application.")
 
 
-#About page ends------------------------------------
+# About page ends------------------------------------
 
 # Help/FAQ page starts---------------------------------------
-def help_faq_page():
+def help_faq_page() :
     st.title("Help/FAQ")
 
     st.header("Frequently Asked Questions")
@@ -105,32 +86,45 @@ def help_faq_page():
     st.markdown("2. Choose the desired conversion format from the 'Convert into' dropdown.")
     st.markdown("3. Click the 'Convert' button to start the conversion process.")
     st.markdown("4. Wait for the conversion to complete.")
-    st.markdown("5. Once the conversion is finished, click the 'Download Converted File' button to save the converted file.")
+    st.markdown(
+        "5. Once the conversion is finished, click the 'Download Converted File' button to save the converted file.")
 
     st.markdown("Q: Can I convert multiple files at once?")
-    st.markdown("A: Currently, File Converter supports converting one file at a time. You can convert multiple files by repeating the conversion process for each file.")
+    st.markdown(
+        "A: Currently, File Converter supports converting one file at a time. You can convert multiple files by "
+        "repeating the conversion process for each file.")
 
     st.markdown("Q: Is my data secure?")
-    st.markdown("A: Yes, we prioritize the privacy and security of your files. All uploaded files are handled with strict confidentiality, and we take measures to protect user data and ensure its security.")
+    st.markdown(
+        "A: Yes, we prioritize the privacy and security of your files. All uploaded files are handled with strict "
+        "confidentiality, and we take measures to protect user data and ensure its security.")
 
     st.markdown("Q: How long does the conversion process take?")
-    st.markdown("A: The time taken for conversion depends on the size and complexity of the file. Larger files or files with complex formatting may take longer to convert.")
+    st.markdown(
+        "A: The time taken for conversion depends on the size and complexity of the file. Larger files or files with "
+        "complex formatting may take longer to convert.")
 
     st.markdown("Q: What if I encounter any issues or have additional questions?")
-    st.markdown("A: If you encounter any issues or have additional questions, please reach out to our support team at codexistslonglastingnotfog@gmail.com. We are here to assist you.")
+    st.markdown(
+        "A: If you encounter any issues or have additional questions, please reach out to our support team at "
+        "codexistslonglastingnotfog@gmail.com. We are here to assist you.")
 
     st.header("Additional Help")
-    st.markdown("If you need further assistance or have any other questions, feel free to contact us. We are always happy to help.")
+    st.markdown(
+        "If you need further assistance or have any other questions, feel free to contact us. We are always happy to "
+        "help.")
 
     st.header("Feedback")
-    st.markdown("We value your feedback and suggestions for improving our application. If you have any ideas or feature requests, please let us know.")
+    st.markdown(
+        "We value your feedback and suggestions for improving our application. If you have any ideas or feature "
+        "requests, please let us know.")
 
 
-#Help/FAQ page ends -----------------------------------------
+# Help/FAQ page ends -----------------------------------------
 
 
 # contact page starts here------------------------------------
-def contact_page():
+def contact_page() :
     st.title("Contact")
 
     st.header("Contact Information")
@@ -143,19 +137,23 @@ def contact_page():
     st.header("Thank You")
     st.write("Thank you for your interest in our application. We look forward to hearing from you!")
 
+
 # contact page ends herer-------------------------------------
 
 
 # feedback page starts here---------------------------------
-def feedback_page():
+def feedback_page() :
     st.title("Feedback")
 
     st.header("We Value Your Feedback")
-    st.write("We appreciate your feedback and suggestions for improving our application. Your feedback helps us understand your needs better and allows us to enhance your user experience.")
+    st.write(
+        "We appreciate your feedback and suggestions for improving our application. Your feedback helps us understand "
+        "your needs better and allows us to enhance your user experience.")
 
     st.header("How to Provide Feedback")
     st.write("There are several ways you can provide feedback:")
-    st.markdown("- Send us an email at [codexistslonglastingnotfog@gmail.com](mailto:codexistslonglastingnotfog@gmail.com)")
+    st.markdown(
+        "- Send us an email at [codexistslonglastingnotfog@gmail.com](mailto:codexistslonglastingnotfog@gmail.com)")
     st.markdown("- Reach out to us through our social media channels (Twitter, LinkedIn)")
     st.markdown("- Fill out the feedback form on our website")
 
@@ -171,12 +169,15 @@ def feedback_page():
     st.markdown("[LinkedIn]([Satyam Sharma](https://www.linkedin.com/in/satyamsharma61541425b)")
 
     st.header("Thank You")
-    st.write("Thank you for taking the time to provide us with your feedback. We value your input and continuously strive to improve our application based on your suggestions.")
+    st.write(
+        "Thank you for taking the time to provide us with your feedback. We value your input and continuously strive "
+        "to improve our application based on your suggestions.")
+
 
 # feedback page ends here-----------------------------
 
 
-with st.sidebar:
+with st.sidebar :
     selected = option_menu(
         menu_title='Main Menu',
         options=['Home', 'About', 'Help/FAQ', 'Contact', 'Feedback'],
@@ -188,16 +189,11 @@ with st.sidebar:
         }
     )
 
+
 # if selected == 'Home':
 
 
-
-
-def home_page():
-
-
-
-
+def home_page() :
     import time
     def text_to_word(uploaded_file) :
         output_file = BytesIO()
@@ -208,41 +204,40 @@ def home_page():
         document.save(output_file)
         output_file.seek(0)
         # Convert button
-        left , center ,  right = st.columns(3)
-        with left:
+        left, center, right = st.columns(3)
+        with left :
 
             if st.button("Convert") :
-                with right:
+                with right :
                     with st.spinner(f"Converting into Word...") :
                         time.sleep(3)  # Simulating conversion process
-                        with left:
+                        with left :
                             def get_key_by_value(dictionary, value) :
                                 for key, val in dictionary.items() :
                                     if val == value :
                                         return key
                                 # If the value is not found, you can return None or raise an exception.
                                 return None
+
                             st.success(f"File converted to {selected_option} successfully.")
 
                             file_extension = uploaded_file.name.split('.')[-1]
-                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options,selected_option)}"
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
 
                             st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
 
-                           #st.download_button("Download Converted File", data=output_file, file_name=f"{uploaded_file.name[:-4]}.docx")
+                        # st.download_button("Download Converted File", data=output_file, file_name=f"{uploaded_file.name[:-4]}.docx")
 
-
-
-    def text_to_csv(uploaded_file):
+    def text_to_csv(uploaded_file) :
         output_file = BytesIO()
 
         text = uploaded_file.read().decode("utf-8")
 
         rows = text.split('\n')
 
-        with StringIO() as file:
+        with StringIO() as file :
             csv_writer = csv.writer(file)
-            for row in rows:
+            for row in rows :
                 csv_writer.writerow(row.split(','))
 
             output_file.write(file.getvalue().encode())
@@ -268,11 +263,9 @@ def home_page():
                             new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
 
                             st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
-            #todo-fixme This has been done
+            # todo-fixme This has been done
 
-
-
-    def text_to_pdf(uploaded_file):
+    def text_to_pdf(uploaded_file) :
         text = uploaded_file.read().decode("utf-8")
 
         # Create a temporary file to save the PDF
@@ -283,14 +276,14 @@ def home_page():
         pdf.add_page()
         pdf.set_font("Arial", size=12)
 
-        for line in text.split('\n'):
+        for line in text.split('\n') :
             pdf.cell(0, 10, txt=line, ln=True, align='L')
 
         # Save the PDF to the temporary file
         pdf.output(temp_file_path)
 
         # Read the temporary PDF file as bytes
-        with open(temp_file_path, 'rb') as temp_file:
+        with open(temp_file_path, 'rb') as temp_file :
             pdf_bytes = temp_file.read()
 
         left, center, right = st.columns(3)
@@ -314,8 +307,6 @@ def home_page():
 
                             st.download_button("Download Converted File", data=pdf_bytes, file_name=new_file_name)
             # todo-fixme checked
-
-    import docx2txt
 
     def text_to_html(uploaded_file) :
         # Create a BytesIO object to store the converted HTML
@@ -349,23 +340,15 @@ def home_page():
 
     # text to others ends ------------------------
 
-
-
-
-
-
-
-
     # docx to others begins ------------------------
-    from docx import Document
 
-    def docx_to_text(uploaded_file):
+    def docx_to_text(uploaded_file) :
         output_file = BytesIO()
 
         document = Document(uploaded_file)
 
         text = ""
-        for paragraph in document.paragraphs:
+        for paragraph in document.paragraphs :
             text += paragraph.text + "\n"
 
         output_file.write(text.encode())
@@ -393,16 +376,17 @@ def home_page():
                             new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
 
                             st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
-    def docx_to_csv(uploaded_file):
+
+    def docx_to_csv(uploaded_file) :
         output_file = BytesIO()
 
         document = Document(uploaded_file)
 
         rows = []
-        for paragraph in document.paragraphs:
+        for paragraph in document.paragraphs :
             rows.append(paragraph.text.split(','))
 
-        with StringIO() as file:
+        with StringIO() as file :
             csv_writer = csv.writer(file)
             csv_writer.writerows(rows)
 
@@ -433,20 +417,20 @@ def home_page():
                             st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
                             # todo-fixme done
 
-    def docx_to_pdf(uploaded_file):
+    def docx_to_pdf(uploaded_file) :
         # Create a temporary directory to save the DOCX and PDF files
         temp_dir = tempfile.mkdtemp()
         temp_docx_path = os.path.join(temp_dir, 'temp.docx')
         temp_pdf_path = os.path.join(temp_dir, 'temp.pdf')
 
         # Save the uploaded DOCX file to the temporary file
-        with open(temp_docx_path, 'wb') as temp_file:
+        with open(temp_docx_path, 'wb') as temp_file :
             temp_file.write(uploaded_file.read())
 
         # Initialize COM library
         pythoncom.CoInitialize()
 
-        try:
+        try :
             # Convert DOCX to PDF using Microsoft Word
             word = win32.Dispatch('Word.Application')
             doc = word.Documents.Open(temp_docx_path)
@@ -463,7 +447,7 @@ def home_page():
             # Close the PDF file
             output_file.close()
 
-        finally:
+        finally :
             os.remove(temp_docx_path)
             os.unlink(temp_pdf_path)
             os.rmdir(temp_dir)
@@ -503,18 +487,14 @@ def home_page():
 
                             # todo-fixme done
 
-    import csv
-    from reportlab.lib.pagesizes import letter
-    from reportlab.platypus import SimpleDocTemplate, Table
-
-    def csv_to_pdf(uploaded_file):
+    def csv_to_pdf(uploaded_file) :
         # Open the uploaded CSV file in text mode
         csv_file = io.TextIOWrapper(uploaded_file)
 
         # Read the CSV data
         csv_data = []
         reader = csv.reader(csv_file)
-        for row in reader:
+        for row in reader :
             csv_data.append(row)
 
         # Set up the PDF document
@@ -526,41 +506,39 @@ def home_page():
         pdf.set_font("Arial", size=10)
 
         # Add table content
-        for row in csv_data:
-            for item in row:
+        for row in csv_data :
+            for item in row :
                 pdf.cell(40, 10, txt=str(item), border=1)
             pdf.ln()
 
         # Create a temporary file to save the PDF
-        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file :
             temp_file_path = temp_file.name
             pdf.output(temp_file_path)
 
         # Read the temporary PDF file as bytes
-        with open(temp_file_path, 'rb') as temp_file:
+        with open(temp_file_path, 'rb') as temp_file :
             pdf_bytes = temp_file.read()
 
         # Display success message and download button
         st.success("File converted to PDF successfully.")
         st.download_button("Download Converted File", data=pdf_bytes, file_name='converted.pdf')
 
-
-
-    def csv_to_text(uploaded_file):
+    def csv_to_text(uploaded_file) :
         # Open the uploaded CSV file in text mode
         csv_file = io.TextIOWrapper(uploaded_file)
 
         # Read the CSV data
         csv_data = []
         reader = csv.reader(csv_file)
-        for row in reader:
+        for row in reader :
             csv_data.append(row)
 
         # Create a StringIO object to store the converted text
         output_text = io.StringIO()
 
         # Convert CSV data to text
-        for row in csv_data:
+        for row in csv_data :
             line = ','.join(row)
             output_text.write(line + '\n')
 
@@ -586,7 +564,7 @@ def home_page():
 
                             file_extension = uploaded_file.name.split('.')[-1]
                             new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
-                            #convert ouput_Text to bytes-like object
+                            # convert ouput_Text to bytes-like object
                             output_bytes = output_text.getvalue().encode()
 
                             # Create a temporary file to store the converted text
@@ -600,18 +578,14 @@ def home_page():
                             temp_text_file.close()
                             os.unlink(temp_text_file.name)
 
-
-    import io
-    from docx import Document
-
-    def csv_to_word(uploaded_file):
+    def csv_to_word(uploaded_file) :
         # Open the uploaded CSV file in text mode
         csv_file = io.TextIOWrapper(uploaded_file)
 
         # Read the CSV data
         csv_data = []
         reader = csv.reader(csv_file)
-        for row in reader:
+        for row in reader :
             csv_data.append(row)
 
         # Create a new Word document
@@ -619,8 +593,8 @@ def home_page():
 
         # Add table content
         table = document.add_table(rows=len(csv_data), cols=max(len(row) for row in csv_data))
-        for i, row in enumerate(csv_data):
-            for j, cell_value in enumerate(row):
+        for i, row in enumerate(csv_data) :
+            for j, cell_value in enumerate(row) :
                 table.cell(i, j).text = cell_value
 
         # Create a BytesIO object to save the Word document
@@ -690,15 +664,13 @@ def home_page():
 
                             # todo-fixme done
 
-    #csv to other ends---------------------
+    # csv to other ends---------------------
 
-    #html to others begins----------------------
-    import io
+    # html to others begins----------------------
     from docx import Document
     from fpdf import FPDF
-    from bs4 import BeautifulSoup
 
-    def html_to_docx(uploaded_file):
+    def html_to_docx(uploaded_file) :
         # Read the HTML content
         html_content = uploaded_file.read().decode("utf-8")
 
@@ -736,8 +708,8 @@ def home_page():
                             new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
 
                             st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
+
     import csv
-    from bs4 import BeautifulSoup
 
     def html_to_csv(uploaded_file) :
         # Read the HTML content
@@ -746,15 +718,13 @@ def home_page():
                  "In the meantime, please try different formats or consider converting HTML to PDF "
                  "and then PDF to CSV. Thank you for your understanding.")
 
-
     import io
-    import pdfkit
     import tempfile
     from bs4 import BeautifulSoup
 
     import streamlit as st
 
-    def html_to_text(uploaded_file):
+    def html_to_text(uploaded_file) :
         # Read the HTML content
         html_content = uploaded_file.read().decode("utf-8")
 
@@ -796,10 +766,12 @@ def home_page():
 
                             st.download_button("Download Converted File", data=output_bytes, file_name=new_file_name)
 
+    # html to others ends--------------------------
+    # conversions from pdf to other formats starts-----------
 
-    #html to others ends--------------------------
+    # conversions from pdf to other format ends
 
-    st.markdown (
+    st.markdown(
         """
         <link rel="stylesheet" href="./styles.css">
         """,
@@ -807,90 +779,85 @@ def home_page():
     )
 
     uploaded_file = st.file_uploader("Upload a file")
+    if uploaded_file.name.split(".")[-1].lower() == 'pdf' :
+        st.warning(
+            "Apologies, but the PDF converter is currently unavailable. We are unable to convert PDF files at the moment. Please try again later.")
+    else :
 
-    if uploaded_file is not None :
-        file_extension = uploaded_file.name.split(".")[-1].lower()
+        if uploaded_file is not None :
+            file_extension = uploaded_file.name.split(".")[-1].lower()
 
-        options = {
-            'docx' : 'Word',  # done
-            'csv' : 'CSV',  # done
-            'pdf' : 'PDF',  # done
-            'txt' : 'TXT',  # done
-            'html' : 'HTML',
-        }
+            options = {
+                'docx' : 'Word',  # done
+                'csv' : 'CSV',  # done
+                'pdf' : 'PDF',  # done
+                'txt' : 'TXT',  # done
+                'html' : 'HTML',
+            }
 
-        # Remove uploaded file extension from options
-        if file_extension in options :
-            options.pop(file_extension)
+            # Remove uploaded file extension from options
+            if file_extension in options :
+                options.pop(file_extension)
 
-        # Remove HTML option if uploaded file is DOCX
-        # if file_extension == 'docx' :
-        #     options.pop('html')
+            # Remove HTML option if uploaded file is DOCX
+            # if file_extension == 'docx' :
+            #     options.pop('html')
 
-        selected_option = st.selectbox("Convert into:",
-                                       options=list(options.values()),
-                                       key="option_menu",
-                                       index=0,
-                                       help="Select a conversion option")
+            selected_option = st.selectbox("Convert into:",
+                                           options=list(options.values()),
+                                           key="option_menu",
+                                           index=0,
+                                           help="Select a conversion option")
+
+            if file_extension == 'txt' :
+                if selected_option == 'HTML' :
+                    text_to_html(uploaded_file)
+                if selected_option == 'Word' :
+                    text_to_word(uploaded_file)
+                elif selected_option == 'CSV' :
+                    text_to_csv(uploaded_file)
+                elif selected_option == 'PDF' :
+                    text_to_pdf(uploaded_file)
+
+            # Add other conversion options
+            if file_extension == 'docx' :
+                if selected_option == 'HTML' :
+                    docx_to_html(uploaded_file)
+                if selected_option == 'TXT' :
+                    docx_to_text(uploaded_file)
+                if selected_option == 'CSV' :
+                    docx_to_csv(uploaded_file)
+                if selected_option == 'PDF' :
+                    docx_to_pdf(uploaded_file)
+            if file_extension == 'csv' :
+                if selected_option == 'HTML' :
+                    csv_to_html(uploaded_file)
+                if selected_option == 'TXT' :
+                    csv_to_text(uploaded_file)
+                if selected_option == 'Word' :
+                    csv_to_word(uploaded_file)
+                if selected_option == 'PDF' :
+                    csv_to_pdf(uploaded_file)
+            if file_extension == 'html' :
+
+                if selected_option == 'CSV' :
+                    html_to_csv(uploaded_file)
+                if selected_option == 'Word' :
+                    html_to_docx(uploaded_file)
+                if selected_option == 'TXT' :
+                    html_to_text(uploaded_file)
 
 
-        if file_extension == 'txt':
-            if selected_option == 'HTML':
-                text_to_html(uploaded_file)
-            if selected_option == 'Word':
-                text_to_word(uploaded_file)
-            elif selected_option == 'CSV' :
-                text_to_csv(uploaded_file)
-            elif selected_option == 'PDF' :
-                text_to_pdf(uploaded_file)
-
-           # Add other conversion options
-        if file_extension == 'docx':
-            if selected_option == 'HTML':
-                docx_to_html(uploaded_file)
-            if selected_option == 'TXT':
-                docx_to_text(uploaded_file)
-            if selected_option == 'CSV':
-                docx_to_csv(uploaded_file)
-            if selected_option == 'PDF':
-                docx_to_pdf(uploaded_file)
-        if file_extension == 'csv' :
-            if selected_option == 'HTML':
-                csv_to_html(uploaded_file)
-            if selected_option == 'TXT':
-                csv_to_text(uploaded_file)
-            if selected_option == 'Word':
-                csv_to_word(uploaded_file)
-            if selected_option == 'PDF':
-                csv_to_pdf(uploaded_file)
-        if file_extension == 'html':
-<<<<<<< HEAD
-            if selected_option == 'CSV':
-                html_to_csv(uploaded_file)
-            if selected_option == 'Word':
-                html_to_docx(uploaded_file)
-            if selected_option == 'TXT':
-                html_to_text(uploaded_file)
-=======
-           if selected_option == 'CSV':
-               html_to_csv(uploaded_file)
-           if selected_option == 'PDF':
-               html_to_pdf(uploaded_file)
-           if selected_option == 'Word':
-               html_to_docx(uploaded_file)
-           if selected_option == 'TXT':
-               html_to_text(uploaded_file)
->>>>>>> 2f45c6c6aa96da1a29669f5bcd92b1bfd5a58bc1
-#All site operations ends here
+# All site operations ends here
 
 # About page content----------------------------------------------------
-if selected == 'Home':
+if selected == 'Home' :
     home_page()
-elif selected == 'About':
+elif selected == 'About' :
     about_page()
-elif selected == 'Help/FAQ':
+elif selected == 'Help/FAQ' :
     help_faq_page()
-elif selected == 'Contact':
+elif selected == 'Contact' :
     contact_page()
-elif selected == 'Feedback':
+elif selected == 'Feedback' :
     feedback_page()
