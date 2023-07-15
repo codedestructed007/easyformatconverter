@@ -24,10 +24,6 @@ import time
 
 
 
-
-
-
-
 # -------------------------------------------------------
 st.set_page_config(
     page_title="File Converter",
@@ -561,13 +557,6 @@ if selected == 'Home':
     from bs4 import BeautifulSoup
 
     import streamlit as st
-
-
-
-
-
-
-
 
     def html_to_text(uploaded_file):
         # Read the HTML content
