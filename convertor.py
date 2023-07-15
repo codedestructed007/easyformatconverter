@@ -4,10 +4,10 @@ import tempfile
 import csv
 
 import pdfcrowd
+from bs4 import BeautifulSoup
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table
 import docx
-import pywin
 import comtypes
 import win32com.client.dynamic as win32
 import streamlit as st
@@ -755,45 +755,8 @@ def home_page():
     from bs4 import BeautifulSoup
     import streamlit as st
 
-    def html_to_pdf(uploaded_file):
-        # Read the HTML content
-        html_content = uploaded_file.read().decode("utf-8")
 
-        # Generate a temporary PDF file path
-        temp_pdf_path = tempfile.NamedTemporaryFile(delete=False, suffix='.pdf').name
 
-        # Create a PDFCrowd client
-        client = pdfcrowd.HtmlToPdfClient("sat223", "8f56d67515b0c9463b56ea339626e358")  # Replace with your PDFCrowd credentials
-
-        # Convert HTML to PDF using PDFCrowd API
-        client.convertStringToFile(html_content, temp_pdf_path)
-
-        # Read the PDF file as bytes
-        with open(temp_pdf_path, 'rb') as temp_pdf_file:
-            pdf_bytes = temp_pdf_file.read()
-
-        # Display success message
-        left, center, right = st.columns(3)
-        with left :
-
-            if st.button("Convert") :
-                with right :
-                    with st.spinner(f"Converting into Word...") :
-                        time.sleep(3)  # Simulating conversion process
-                        with left :
-                            def get_key_by_value(dictionary, value) :
-                                for key, val in dictionary.items() :
-                                    if val == value :
-                                        return key
-                                # If the value is not found, you can return None or raise an exception.
-                                return None
-
-                            st.success(f"File converted to {selected_option} successfully.")
-
-                            file_extension = uploaded_file.name.split('.')[-1]
-                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
-
-                            st.download_button("Download Converted File", data=pdf_bytes, file_name=new_file_name)
 
 
 
