@@ -417,43 +417,8 @@ def home_page() :
                             st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
                             # todo-fixme done
 
-    def docx_to_pdf(uploaded_file) :
-        # Create a temporary directory to save the DOCX and PDF files
-        temp_dir = tempfile.mkdtemp()
-        temp_docx_path = os.path.join(temp_dir, 'temp.docx')
-        temp_pdf_path = os.path.join(temp_dir, 'temp.pdf')
 
-        # Save the uploaded DOCX file to the temporary file
-        with open(temp_docx_path, 'wb') as temp_file :
-            temp_file.write(uploaded_file.read())
-
-        # Initialize COM library
-        pythoncom.CoInitialize()
-
-        try :
-            # Convert DOCX to PDF using Microsoft Word
-            word = win32.Dispatch('Word.Application')
-            doc = word.Documents.Open(temp_docx_path)
-            doc.SaveAs(temp_pdf_path, FileFormat=17)  # FileFormat=17 for PDF
-            doc.Close()
-            word.Quit()
-
-            # Open the PDF file for download
-            output_file = open(temp_pdf_path, 'rb')
-
-            st.success("File converted to PDF successfully.")
-            st.download_button("Download Converted File", data=output_file, file_name='converted.pdf')
-
-            # Close the PDF file
-            output_file.close()
-
-        finally :
-            os.remove(temp_docx_path)
-            os.unlink(temp_pdf_path)
-            os.rmdir(temp_dir)
-
-        # Uninitialize COM library
-        pythoncom.CoUninitialize()
+    
 
     import docx2txt
 
