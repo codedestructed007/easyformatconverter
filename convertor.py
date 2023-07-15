@@ -569,6 +569,7 @@ if selected == 'Home':
     import pdfkit
     import tempfile
     from bs4 import BeautifulSoup
+
     import streamlit as st
 
     # def html_to_pdf(uploaded_file):
@@ -693,8 +694,6 @@ if selected == 'Home':
         if file_extension == 'html':
             if selected_option == 'CSV':
                 html_to_csv(uploaded_file)
-            if selected_option == 'PDF':
-                html_to_pdf(uploaded_file)
             if selected_option == 'Word':
                 html_to_docx(uploaded_file)
             if selected_option == 'TXT':
