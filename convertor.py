@@ -4,7 +4,7 @@ from io import BytesIO, StringIO
 
 
 import streamlit as st
-import win32com.client.dynamic as win32
+
 from streamlit_option_menu import option_menu
 
 # -------------------------------------------------------
