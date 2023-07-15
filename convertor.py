@@ -754,17 +754,6 @@ def home_page():
 
     import streamlit as st
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
-
-
-
->>>>>>> 2f45c6c6aa96da1a29669f5bcd92b1bfd5a58bc1
     def html_to_text(uploaded_file):
         # Read the HTML content
         html_content = uploaded_file.read().decode("utf-8")
