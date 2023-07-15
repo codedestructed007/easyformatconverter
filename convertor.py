@@ -779,73 +779,77 @@ def home_page() :
     )
 
     uploaded_file = st.file_uploader("Upload a file")
-    if uploaded_file.name.split(".")[-1].lower() == 'pdf' :
-        st.warning(
-            "Apologies, but the PDF converter is currently unavailable. We are unable to convert PDF files at the moment. Please try again later.")
-    else :
+    if uploaded_file is not None:
 
-        if uploaded_file is not None :
-            file_extension = uploaded_file.name.split(".")[-1].lower()
+        if uploaded_file.name.split(".")[-1].lower() == 'pdf' :
+            st.warning(
+                "Apologies, but the PDF converter is currently unavailable. We are unable to convert PDF files at the moment. Please try again later.")
+        else :
 
-            options = {
-                'docx' : 'Word',  # done
-                'csv' : 'CSV',  # done
-                'pdf' : 'PDF',  # done
-                'txt' : 'TXT',  # done
-                'html' : 'HTML',
-            }
+                file_extension = uploaded_file.name.split(".")[-1].lower()
 
-            # Remove uploaded file extension from options
-            if file_extension in options :
-                options.pop(file_extension)
+                options = {
+                    'docx' : 'Word',  # done
+                    'csv' : 'CSV',  # done
+                    'pdf' : 'PDF',  # done
+                    'txt' : 'TXT',  # done
+                    'html' : 'HTML',
+                }
 
-            # Remove HTML option if uploaded file is DOCX
-            # if file_extension == 'docx' :
-            #     options.pop('html')
+                # Remove uploaded file extension from options
+                if file_extension in options :
+                    options.pop(file_extension)
 
-            selected_option = st.selectbox("Convert into:",
-                                           options=list(options.values()),
-                                           key="option_menu",
-                                           index=0,
-                                           help="Select a conversion option")
+                # Remove HTML option if uploaded file is DOCX
+                # if file_extension == 'docx' :
+                #     options.pop('html')
 
-            if file_extension == 'txt' :
-                if selected_option == 'HTML' :
-                    text_to_html(uploaded_file)
-                if selected_option == 'Word' :
-                    text_to_word(uploaded_file)
-                elif selected_option == 'CSV' :
-                    text_to_csv(uploaded_file)
-                elif selected_option == 'PDF' :
-                    text_to_pdf(uploaded_file)
+                selected_option = st.selectbox("Convert into:",
+                                               options=list(options.values()),
+                                               key="option_menu",
+                                               index=0,
+                                               help="Select a conversion option")
 
-            # Add other conversion options
-            if file_extension == 'docx' :
-                if selected_option == 'HTML' :
-                    docx_to_html(uploaded_file)
-                if selected_option == 'TXT' :
-                    docx_to_text(uploaded_file)
-                if selected_option == 'CSV' :
-                    docx_to_csv(uploaded_file)
-                if selected_option == 'PDF' :
-                    docx_to_pdf(uploaded_file)
-            if file_extension == 'csv' :
-                if selected_option == 'HTML' :
-                    csv_to_html(uploaded_file)
-                if selected_option == 'TXT' :
-                    csv_to_text(uploaded_file)
-                if selected_option == 'Word' :
-                    csv_to_word(uploaded_file)
-                if selected_option == 'PDF' :
-                    csv_to_pdf(uploaded_file)
-            if file_extension == 'html' :
+                if file_extension == 'txt' :
+                    if selected_option == 'HTML' :
+                        text_to_html(uploaded_file)
+                    if selected_option == 'Word' :
+                        text_to_word(uploaded_file)
+                    elif selected_option == 'CSV' :
+                        text_to_csv(uploaded_file)
+                    elif selected_option == 'PDF' :
+                        text_to_pdf(uploaded_file)
 
-                if selected_option == 'CSV' :
-                    html_to_csv(uploaded_file)
-                if selected_option == 'Word' :
-                    html_to_docx(uploaded_file)
-                if selected_option == 'TXT' :
-                    html_to_text(uploaded_file)
+                # Add other conversion options
+                if file_extension == 'docx' :
+                    if selected_option == 'HTML' :
+                        docx_to_html(uploaded_file)
+                    if selected_option == 'TXT' :
+                        docx_to_text(uploaded_file)
+                    if selected_option == 'CSV' :
+                        docx_to_csv(uploaded_file)
+                    if selected_option == 'PDF' :
+                        docx_to_pdf(uploaded_file)
+                if file_extension == 'csv' :
+                    if selected_option == 'HTML' :
+                        csv_to_html(uploaded_file)
+                    if selected_option == 'TXT' :
+                        csv_to_text(uploaded_file)
+                    if selected_option == 'Word' :
+                        csv_to_word(uploaded_file)
+                    if selected_option == 'PDF' :
+                        csv_to_pdf(uploaded_file)
+                if file_extension == 'html' :
+
+                    if selected_option == 'CSV' :
+                        html_to_csv(uploaded_file)
+                    if selected_option == 'Word' :
+                        html_to_docx(uploaded_file)
+                    if selected_option == 'TXT' :
+                        html_to_text(uploaded_file)
+                    if selected_option == 'PDF':
+                        st.warning("I apologize for the inconvenience. Unfortunately, the PDF conversion feature is currently unavailable. We are actively working on updating it. Please try again later.")
+
 
 
 # All site operations ends here
