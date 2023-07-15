@@ -1,6 +1,10 @@
+import html
 import shutil
 import tempfile
 import csv
+
+import pdfcrowd
+from bs4 import BeautifulSoup
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table
 import docx
@@ -134,7 +138,7 @@ def contact_page():
 
     st.markdown("- Email: [codexistslonglastingnotfog@gmail.com](mailto:codexistslonglastingnotfog@gmail.com)")
     st.markdown("- Twitter: [@SatyamS67442021](https://twitter.com/SatyamS67442021?t=Lm-I23EPPxWfGRd1jMyKXg&s=09)")
-    st.markdown("- LinkedIn: [Satyam Sharma](www.linkedin.com/in/satyamsharma61541425b)")
+    st.markdown("- LinkedIn: [Satyam Sharma](https://www.linkedin.com/in/satyamsharma61541425b)")
 
     st.header("Thank You")
     st.write("Thank you for your interest in our application. We look forward to hearing from you!")
@@ -164,12 +168,14 @@ def feedback_page():
 
     st.header("Stay Updated")
     st.write("To stay updated with the latest news and updates, follow us on social media:")
-    st.markdown("[LinkedIn]([Satyam Sharma](www.linkedin.com/in/satyamsharma61541425b)")
+    st.markdown("[LinkedIn]([Satyam Sharma](https://www.linkedin.com/in/satyamsharma61541425b)")
 
     st.header("Thank You")
     st.write("Thank you for taking the time to provide us with your feedback. We value your input and continuously strive to improve our application based on your suggestions.")
 
 # feedback page ends here-----------------------------
+
+
 with st.sidebar:
     selected = option_menu(
         menu_title='Main Menu',
@@ -182,16 +188,15 @@ with st.sidebar:
         }
     )
 
-if selected == 'Home':
+# if selected == 'Home':
 
 
 
 
+def home_page():
 
-    #------------------------------------------------------
-    # all conversion code function here
 
-    #text to others begins ------------------------
+
 
     import time
     def text_to_word(uploaded_file) :
@@ -211,9 +216,20 @@ if selected == 'Home':
                     with st.spinner(f"Converting into Word...") :
                         time.sleep(3)  # Simulating conversion process
                         with left:
-
+                            def get_key_by_value(dictionary, value) :
+                                for key, val in dictionary.items() :
+                                    if val == value :
+                                        return key
+                                # If the value is not found, you can return None or raise an exception.
+                                return None
                             st.success(f"File converted to {selected_option} successfully.")
-                            st.download_button("Download Converted File", data=output_file, file_name='converted.docx')
+
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options,selected_option)}"
+
+                            st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
+
+                           #st.download_button("Download Converted File", data=output_file, file_name=f"{uploaded_file.name[:-4]}.docx")
 
 
 
@@ -234,19 +250,25 @@ if selected == 'Home':
         output_file.seek(0)
         left, center, right = st.columns(3)
         with left :
-
             if st.button("Convert") :
                 with right :
                     with st.spinner(f"Converting into Word...") :
                         time.sleep(3)  # Simulating conversion process
                         with left :
+                            def get_key_by_value(dictionary, value) :
+                                for key, val in dictionary.items() :
+                                    if val == value :
+                                        return key
+                                # If the value is not found, you can return None or raise an exception.
+                                return None
+
                             st.success(f"File converted to {selected_option} successfully.")
-                            st.download_button("Download Converted File", data=output_file, file_name='converted.csv')
 
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
 
-    #done
-
-
+                            st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
+            #todo-fixme This has been done
 
 
 
@@ -273,17 +295,57 @@ if selected == 'Home':
 
         left, center, right = st.columns(3)
         with left :
-
             if st.button("Convert") :
                 with right :
                     with st.spinner(f"Converting into Word...") :
                         time.sleep(3)  # Simulating conversion process
                         with left :
+                            def get_key_by_value(dictionary, value) :
+                                for key, val in dictionary.items() :
+                                    if val == value :
+                                        return key
+                                # If the value is not found, you can return None or raise an exception.
+                                return None
+
                             st.success(f"File converted to {selected_option} successfully.")
-                            st.download_button("Download Converted File", data=pdf_bytes, file_name='converted.pdf')
 
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
 
+                            st.download_button("Download Converted File", data=pdf_bytes, file_name=new_file_name)
+            # todo-fixme checked
 
+    import docx2txt
+
+    def text_to_html(uploaded_file) :
+        # Create a BytesIO object to store the converted HTML
+        output_html = io.BytesIO()
+
+        # Read the text file
+        text_content = uploaded_file.read().decode()
+
+        # Convert text to HTML
+        html_content = f"<pre>{html.escape(text_content)}</pre>"
+
+        # Write the HTML content to the BytesIO object
+        output_html.write(html_content.encode())
+        output_html.seek(0)
+
+        left, center, right = st.columns(3)
+        with left :
+            if st.button("Convert") :
+                with right :
+                    with st.spinner("Converting to HTML...") :
+                        time.sleep(3)  # Simulating conversion process
+                        with left :
+                            st.success("File converted to HTML successfully.")
+
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.html"
+
+                            st.download_button("Download Converted File", data=output_html, file_name=new_file_name)
+
+                            # todo-fixme done
 
     # text to others ends ------------------------
 
@@ -318,10 +380,19 @@ if selected == 'Home':
                     with st.spinner(f"Converting into Word...") :
                         time.sleep(3)  # Simulating conversion process
                         with left :
-                            st.success(f"File converted to {selected_option} successfully.")
-                            st.download_button("Download Converted File", data=output_file, file_name='converted.txt')
-        # done
+                            def get_key_by_value(dictionary, value) :
+                                for key, val in dictionary.items() :
+                                    if val == value :
+                                        return key
+                                # If the value is not found, you can return None or raise an exception.
+                                return None
 
+                            st.success(f"File converted to {selected_option} successfully.")
+
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
+
+                            st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
     def docx_to_csv(uploaded_file):
         output_file = BytesIO()
 
@@ -347,17 +418,20 @@ if selected == 'Home':
                     with st.spinner(f"Converting into Word...") :
                         time.sleep(3)  # Simulating conversion process
                         with left :
+                            def get_key_by_value(dictionary, value) :
+                                for key, val in dictionary.items() :
+                                    if val == value :
+                                        return key
+                                # If the value is not found, you can return None or raise an exception.
+                                return None
+
                             st.success(f"File converted to {selected_option} successfully.")
-                            st.download_button("Download Converted File", data=output_file, file_name='converted.csv')
 
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
 
-
-
-
-
-
-
-
+                            st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
+                            # todo-fixme done
 
     def docx_to_pdf(uploaded_file):
         # Create a temporary directory to save the DOCX and PDF files
@@ -397,14 +471,37 @@ if selected == 'Home':
         # Uninitialize COM library
         pythoncom.CoUninitialize()
 
+    import docx2txt
 
+    def docx_to_html(uploaded_file) :
+        # Create a BytesIO object to store the converted HTML
+        output_html = io.BytesIO()
 
+        # Read the DOCX file
+        docx_content = uploaded_file.read()
 
+        # Convert DOCX to HTML
+        html_content = docx2txt.process(BytesIO(docx_content))
 
-    # docx to others ends --------------------------
+        # Write the HTML content to the BytesIO object
+        output_html.write(html_content.encode())
+        output_html.seek(0)
 
-    # csv to others begins-----------------------------------
+        left, center, right = st.columns(3)
+        with left :
+            if st.button("Convert") :
+                with right :
+                    with st.spinner("Converting to HTML...") :
+                        time.sleep(3)  # Simulating conversion process
+                        with left :
+                            st.success("File converted to HTML successfully.")
 
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.html"
+
+                            st.download_button("Download Converted File", data=output_html, file_name=new_file_name)
+
+                            # todo-fixme done
 
     import csv
     from reportlab.lib.pagesizes import letter
@@ -470,12 +567,38 @@ if selected == 'Home':
         # Reset the pointer of the StringIO object
         output_text.seek(0)
 
-        # Convert text to bytes for download
-        output_bytes = output_text.getvalue().encode()
+        left, center, right = st.columns(3)
+        with left :
 
-        # Display success message and download button
-        st.success("File converted to Text successfully.")
-        st.download_button("Download Converted File", data=output_bytes, file_name='converted.txt')
+            if st.button("Convert") :
+                with right :
+                    with st.spinner(f"Converting into Word...") :
+                        time.sleep(3)  # Simulating conversion process
+                        with left :
+                            def get_key_by_value(dictionary, value) :
+                                for key, val in dictionary.items() :
+                                    if val == value :
+                                        return key
+                                # If the value is not found, you can return None or raise an exception.
+                                return None
+
+                            st.success(f"File converted to {selected_option} successfully.")
+
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
+                            #convert ouput_Text to bytes-like object
+                            output_bytes = output_text.getvalue().encode()
+
+                            # Create a temporary file to store the converted text
+                            temp_text_file = tempfile.NamedTemporaryFile(delete=False)
+                            temp_text_file.write(output_bytes)
+
+                            st.download_button("Download Converted File", data=temp_text_file.name,
+                                               file_name=new_file_name)
+
+                            # Close and remove the temporary file
+                            temp_text_file.close()
+                            os.unlink(temp_text_file.name)
 
 
     import io
@@ -507,9 +630,65 @@ if selected == 'Home':
         # Reset the file pointer of the BytesIO object
         output_file.seek(0)
 
-        # Display success message and download button
-        st.success("File converted to Word successfully.")
-        st.download_button("Download Converted File", data=output_file, file_name='converted.docx')
+        left, center, right = st.columns(3)
+        with left :
+
+            if st.button("Convert") :
+                with right :
+                    with st.spinner(f"Converting into Word...") :
+                        time.sleep(3)  # Simulating conversion process
+                        with left :
+                            def get_key_by_value(dictionary, value) :
+                                for key, val in dictionary.items() :
+                                    if val == value :
+                                        return key
+                                # If the value is not found, you can return None or raise an exception.
+                                return None
+
+                            st.success(f"File converted to {selected_option} successfully.")
+
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
+
+                            st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
+
+    def csv_to_html(uploaded_file) :
+        # Read the CSV file
+        csv_data = []
+        with io.TextIOWrapper(uploaded_file) as csv_file :
+            reader = csv.reader(csv_file)
+            for row in reader :
+                csv_data.append(row)
+
+        # Create an HTML table string
+        html_table = "<table>"
+        for row in csv_data :
+            html_table += "<tr>"
+            for cell in row :
+                html_table += f"<td>{cell}</td>"
+            html_table += "</tr>"
+        html_table += "</table>"
+
+        # Create a BytesIO object to store the converted HTML
+        output_html = io.BytesIO()
+        output_html.write(html_table.encode())
+        output_html.seek(0)
+
+        left, center, right = st.columns(3)
+        with left :
+            if st.button("Convert") :
+                with right :
+                    with st.spinner("Converting to HTML...") :
+                        time.sleep(3)  # Simulating conversion process
+                        with left :
+                            st.success("File converted to HTML successfully.")
+
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.html"
+
+                            st.download_button("Download Converted File", data=output_html, file_name=new_file_name)
+
+                            # todo-fixme done
 
     #csv to other ends---------------------
 
@@ -536,20 +715,37 @@ if selected == 'Home':
         # Reset the file pointer of the BytesIO object
         output_file.seek(0)
 
-        # Display success message and download button
-        st.success("File converted to DOCX successfully.")
-        st.download_button("Download Converted File", data=output_file, file_name='converted.docx')
+        left, center, right = st.columns(3)
+        with left :
 
-    import io
+            if st.button("Convert") :
+                with right :
+                    with st.spinner(f"Converting into Word...") :
+                        time.sleep(3)  # Simulating conversion process
+                        with left :
+                            def get_key_by_value(dictionary, value) :
+                                for key, val in dictionary.items() :
+                                    if val == value :
+                                        return key
+                                # If the value is not found, you can return None or raise an exception.
+                                return None
+
+                            st.success(f"File converted to {selected_option} successfully.")
+
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
+
+                            st.download_button("Download Converted File", data=output_file, file_name=new_file_name)
     import csv
     from bs4 import BeautifulSoup
 
-    def html_to_csv(uploaded_file):
+    def html_to_csv(uploaded_file) :
         # Read the HTML content
-        st.error('I apologize for the inconvenience , This feature will'
-                 'be updated later.. '
-                 'Meanwhile you can try different formats.'
-                 'Or you can try to convert html to pdf and then pdf to csv ')
+
+        st.error("I apologize for the inconvenience. This feature will be updated later. "
+                 "In the meantime, please try different formats or consider converting HTML to PDF "
+                 "and then PDF to CSV. Thank you for your understanding.")
+
 
     import io
     import pdfkit
@@ -558,6 +754,17 @@ if selected == 'Home':
 
     import streamlit as st
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+
+
+>>>>>>> 2f45c6c6aa96da1a29669f5bcd92b1bfd5a58bc1
     def html_to_text(uploaded_file):
         # Read the HTML content
         html_content = uploaded_file.read().decode("utf-8")
@@ -578,13 +785,27 @@ if selected == 'Home':
         # Convert StringIO to bytes
         output_bytes = output_text.getvalue().encode()
 
-        # Check if the "Convert" button is clicked
-        if st.button("Convert"):
-            # Display success message
-            st.success("File converted to Text successfully.")
+        left, center, right = st.columns(3)
+        with left :
 
-            # Download button
-            st.download_button("Download Converted File", data=output_bytes, file_name='converted.txt')
+            if st.button("Convert") :
+                with right :
+                    with st.spinner(f"Converting into Word...") :
+                        time.sleep(3)  # Simulating conversion process
+                        with left :
+                            def get_key_by_value(dictionary, value) :
+                                for key, val in dictionary.items() :
+                                    if val == value :
+                                        return key
+                                # If the value is not found, you can return None or raise an exception.
+                                return None
+
+                            st.success(f"File converted to {selected_option} successfully.")
+
+                            file_extension = uploaded_file.name.split('.')[-1]
+                            new_file_name = f"{uploaded_file.name[:-len(file_extension) - 1]}.{get_key_by_value(options, selected_option)}"
+
+                            st.download_button("Download Converted File", data=output_bytes, file_name=new_file_name)
 
 
     #html to others ends--------------------------
@@ -596,16 +817,16 @@ if selected == 'Home':
         unsafe_allow_html=True
     )
 
-    uploaded_file = st.file_uploader ( "Upload a file" )
+    uploaded_file = st.file_uploader("Upload a file")
 
     if uploaded_file is not None :
-        file_extension = uploaded_file.name.split ( "." )[-1].lower ()
+        file_extension = uploaded_file.name.split(".")[-1].lower()
 
         options = {
-            'docx' : 'Word',    #done
-            'csv' : 'CSV',      #done
-            'pdf' : 'PDF',      #done
-            'txt' : 'TXT',      #done
+            'docx' : 'Word',  # done
+            'csv' : 'CSV',  # done
+            'pdf' : 'PDF',  # done
+            'txt' : 'TXT',  # done
             'html' : 'HTML',
         }
 
@@ -614,8 +835,8 @@ if selected == 'Home':
             options.pop(file_extension)
 
         # Remove HTML option if uploaded file is DOCX
-        if file_extension == 'docx' :
-            options.pop('html')
+        # if file_extension == 'docx' :
+        #     options.pop('html')
 
         selected_option = st.selectbox("Convert into:",
                                        options=list(options.values()),
@@ -623,17 +844,21 @@ if selected == 'Home':
                                        index=0,
                                        help="Select a conversion option")
 
-        if file_extension == 'txt':
 
-            if selected_option == 'Word' :
+        if file_extension == 'txt':
+            if selected_option == 'HTML':
+                text_to_html(uploaded_file)
+            if selected_option == 'Word':
                 text_to_word(uploaded_file)
             elif selected_option == 'CSV' :
                 text_to_csv(uploaded_file)
             elif selected_option == 'PDF' :
                 text_to_pdf(uploaded_file)
 
-            # Add other conversion options
+           # Add other conversion options
         if file_extension == 'docx':
+            if selected_option == 'HTML':
+                docx_to_html(uploaded_file)
             if selected_option == 'TXT':
                 docx_to_text(uploaded_file)
             if selected_option == 'CSV':
@@ -641,6 +866,8 @@ if selected == 'Home':
             if selected_option == 'PDF':
                 docx_to_pdf(uploaded_file)
         if file_extension == 'csv' :
+            if selected_option == 'HTML':
+                csv_to_html(uploaded_file)
             if selected_option == 'TXT':
                 csv_to_text(uploaded_file)
             if selected_option == 'Word':
@@ -648,16 +875,28 @@ if selected == 'Home':
             if selected_option == 'PDF':
                 csv_to_pdf(uploaded_file)
         if file_extension == 'html':
+<<<<<<< HEAD
             if selected_option == 'CSV':
                 html_to_csv(uploaded_file)
             if selected_option == 'Word':
                 html_to_docx(uploaded_file)
             if selected_option == 'TXT':
                 html_to_text(uploaded_file)
+=======
+           if selected_option == 'CSV':
+               html_to_csv(uploaded_file)
+           if selected_option == 'PDF':
+               html_to_pdf(uploaded_file)
+           if selected_option == 'Word':
+               html_to_docx(uploaded_file)
+           if selected_option == 'TXT':
+               html_to_text(uploaded_file)
+>>>>>>> 2f45c6c6aa96da1a29669f5bcd92b1bfd5a58bc1
 #All site operations ends here
 
 # About page content----------------------------------------------------
-
+if selected == 'Home':
+    home_page()
 elif selected == 'About':
     about_page()
 elif selected == 'Help/FAQ':
